@@ -22,6 +22,7 @@ jobs:
       - run: |
           echo "198.51.100.0/24" > ./__tests__/newlist.lst
       - name: local action
+        id: local_action
         uses: ./
         with:
           includeGlob: '__tests__/*.lst'
