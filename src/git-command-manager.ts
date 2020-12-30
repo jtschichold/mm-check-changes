@@ -6,6 +6,10 @@ import * as io from '@actions/io'
 
 export interface IGitCommandManager {
     numberOfLines(ref?: string): Promise<{fname: string; count: number}[]>
+    status(): Promise<{fname: string; status: string}[]>
+    diffNumStats(): Promise<{fname: string; added: number; deleted: number}[]>
+    isNew(porcelainStatus: string): boolean
+    isDeleted(porcelainStatus: string): boolean
 }
 
 export async function createCommandManager(
@@ -47,17 +51,63 @@ class GitCommandManager {
             .split('\n')
             .filter(l => l.includes('|'))
             .map(l => {
-                const toks = l.split('|')
+                const toks = l.trim().split('|')
 
                 return {
                     count: parseInt(
-                        toks.splice(-1, 1)[0].trim().split(' ', 2)[0]
+                        toks.splice(-1, 1)[0].trim().split(/\s+/, 2)[0]
                     ),
                     fname: toks.join('|').trim()
                 }
             })
 
+        return result.filter(r => !isNaN(r.count))
+    }
+
+    async status(): Promise<{fname: string; status: string}[]> {
+        const gitResult = await this.execGit(['status', '--porcelain'], false)
+
+        const result = gitResult.stdout
+            .split('\n')
+            .filter(l => l.trim().length >= 4) // XY<space>FNAME
+            .map(l => {
+                const status = l.slice(0, 2) // XY
+                const fname = l.slice(3)
+                return {
+                    fname,
+                    status
+                }
+            })
+
         return result
+    }
+
+    async diffNumStats(): Promise<
+        {fname: string; added: number; deleted: number}[]
+    > {
+        const gitResult = await this.execGit(['diff', '--numstat'], false)
+
+        const result = gitResult.stdout
+            .split('\n')
+            .filter(l => l.trim())
+            .map(l => {
+                const [added, deleted, fname] = l.split(/\s+/, 3)
+                return {
+                    added: parseInt(added),
+                    deleted: parseInt(deleted),
+                    fname
+                }
+            })
+
+        return result.filter(e => !isNaN(e.added) && !isNaN(e.deleted))
+    }
+
+    isNew(porcelainStatus: string): boolean {
+        return porcelainStatus === '??'
+    }
+
+    isDeleted(porcelainStatus: string): boolean {
+        return porcelainStatus === ' D'
     }
 
     private async getEmptyTreeHashID(): Promise<string> {
@@ -68,7 +118,7 @@ class GitCommandManager {
 
         core.debug(`Empty Tree Hash ID: ${result.stdout}`)
 
-        return result.stdout
+        return result.stdout.trim()
     }
 
     private async execGit(
