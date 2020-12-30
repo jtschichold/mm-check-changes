@@ -24,7 +24,7 @@ jobs:
       - name: local action
         uses: ./
         with:
-          includeGlob: './__tests__/*.lst'
+          includeGlob: '__tests__/*.lst'
       - name: fails if not big change
         run: exit 1
         if: ${{ steps.local_action.outputs.bigChange != 'true' }}
