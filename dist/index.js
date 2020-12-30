@@ -339,6 +339,11 @@ function run() {
                 removedFiles >= inputs.thrRemovedFiles);
             bigChange || (bigChange = inputs.thrAbsChanges !== 0 && maxAbsChange >= inputs.thrAbsChanges);
             bigChange || (bigChange = inputs.thrRelChanges !== 0 && maxRelChange >= inputs.thrRelChanges);
+            core.info(`bigChange: ${bigChange}`);
+            core.info(`newFiles: ${newFiles}`);
+            core.info(`removedFiles: ${removedFiles}`);
+            core.info(`maxAbsChange: ${maxAbsChange}`);
+            core.info(`maxRelChange: ${maxRelChange}`);
             core.setOutput('bigChange', bigChange);
             core.setOutput('newFiles', newFiles);
             core.setOutput('removedFiles', removedFiles);
