@@ -1,0 +1,42 @@
+name: mm-check-changes
+description: Compare lists in 2 directories to detect "big" changes.
+author: Luigi Mori
+inputs:
+  path:
+    description: 'Relative path under $GITHUB_WORKSPACE to find the repository'
+  includeGlob:
+    required: false
+    description: |-
+      if specified, only the files matching this glob pattern
+      are used to calculate the change size. This glob pattern is checked before
+      excludeGlob
+  excludeGlob:
+    required: false
+    description: |-
+      if specified, files matching this glob pattern are excluded from analysis
+  thrNewFiles:
+    required: false
+    description: threshold for the number of new files in candidate
+  thrRemovedFiles:
+    required: false
+    description: threshold for the number of deleted files in candidate
+  thrRelChanges:
+    required: false
+    description: threshold for the number of relative changes in a list (in %)
+  thrAbsChanges:
+    required: false
+    description: threshold for the number of absolute changes in a list
+outputs:
+  newFiles:
+    description: number of new files
+  removedFiles:
+    description: number of removed files
+  maxAbsChanges:
+    description: maximum number of absolute changes detected
+  maxRelChanges:
+    description: maximum relative change detected
+  bigChange:
+    description: big change detected?
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

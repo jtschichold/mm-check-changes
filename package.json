@@ -1,0 +1,51 @@
+{
+  "name": "typescript-action",
+  "version": "0.0.0",
+  "private": true,
+  "description": "TypeScript template action",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "lint": "eslint src/**/*.ts",
+    "package": "ncc build --source-map --license licenses.txt",
+    "test": "jest",
+    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jtschichold/mm-process-ip-list"
+  },
+  "bugs": {
+    "url": "https://github.com/jtschichold/mm-process-ip-list/issues"
+  },
+  "homepage": "https://github.com/jtschichold/mm-process-ip-list#readme",
+  "keywords": [
+    "actions",
+    "node",
+    "setup"
+  ],
+  "author": "Luigi Mori",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.6"
+  },
+  "devDependencies": {
+    "@actions/exec": "^1.0.4",
+    "@actions/io": "^1.0.2",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.8",
+    "@typescript-eslint/parser": "^3.10.1",
+    "@vercel/ncc": "^0.25.1",
+    "eslint": "^7.13.0",
+    "eslint-plugin-github": "^4.1.1",
+    "eslint-plugin-jest": "^23.20.0",
+    "jest": "^24.9.0",
+    "jest-circus": "^26.4.2",
+    "js-yaml": "^3.14.0",
+    "prettier": "2.1.2",
+    "ts-jest": "^24.3.0",
+    "typescript": "^4.0.2"
+  }
+}
