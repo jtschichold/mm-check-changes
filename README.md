@@ -28,25 +28,25 @@ Default: *none*
 
 ### `thrNewFiles`
 
-Threshold for the number of new files in working directory. If the number of new files in working directory is greater than or equal to `thrNewFiles`, the action sets the `bigChange` output to `true`.
+Threshold for the number of new files in working directory. If the number of new files in working directory is greater than or equal to `thrNewFiles`, the action sets the `bigChange` output to `true`. Set to `0` to disable.
 
 Default: *1*
 
 ### `thrRemovedFiles`
 
-Threshold for the number of deleted files in working directory. If the number of files deleted in working directory is greater than or equal to `thrRemovedFiles`, the action sets the `bigChange` output to `true`.
+Threshold for the number of deleted files in working directory. If the number of files deleted in working directory is greater than or equal to `thrRemovedFiles`, the action sets the `bigChange` output to `true`. Set to `0` to disable.
 
 Default: *1*
 
 ### `thrRelChanges`
 
-Threshold for the number of relative changes in a list (in %). If the ratio between changed lines (sum of added and deleted lines) and number of lines in the current version of the file is greater than or equal to `thrRelChanges`, the action sets the `bigChange` flag to `true`.
+Threshold for the number of relative changes in a list (in %). If the ratio between changed lines (sum of added and deleted lines) and number of lines in the current version of the file is greater than or equal to `thrRelChanges`, the action sets the `bigChange` flag to `true`. Set to `0` to disable.
 
 Default: *100*
 
 ### `thrAbsChanges`
 
-Threshold for the number of absolute changes in a list. If the number of changed lines (sum of added and deleted lines) is greater than or equal to `thrAbsChanges`, the action sets the `bigChange` output to `true`.
+Threshold for the number of absolute changes in a list. If the number of changed lines (sum of added and deleted lines) is greater than or equal to `thrAbsChanges`, the action sets the `bigChange` output to `true`. Set to `0` to disable.
 
 Default: *0*
 

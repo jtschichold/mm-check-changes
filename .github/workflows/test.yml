@@ -19,14 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # first test: no chages => no big change
+      # test: no chages => no big change
       - name: local action 0
         id: local_action_0
         uses: ./
       - name: fails if big change
         run: exit 1
         if: ${{ steps.local_action_0.outputs.bigChange == 'true' }}
-      # second test: 1 new file => big change
+      # test: 1 new file => big change
       - run: |
           echo "198.51.100.0/24" > ./__tests__/newlist.lst
       - name: local action 10
@@ -37,7 +37,17 @@ jobs:
       - name: fails if not big change
         run: exit 1
         if: ${{ steps.local_action_10.outputs.bigChange != 'true' }}
-      # third test: new excluded file => no big change
+      # test: 1 new file with thrNewFiles to 2 => big change
+      - name: local action 11
+        id: local_action_11
+        uses: ./
+        with:
+          includeGlob: '__tests__/*.lst'
+          thrNewFiles: 2
+      - name: fails if big change
+        run: exit 1
+        if: ${{ steps.local_action_11.outputs.bigChange == 'true' }}
+      # test: new excluded file => no big change
       - name: local action 20
         id: local_action_20
         uses: ./
@@ -50,6 +60,37 @@ jobs:
       # cleanup
       - run: |
           rm ./__tests__/newlist.lst
+      - run: |
+          echo "entry4" >> ./__tests__/newlist.lst
+      # test: changed file 1 added / 30% => no big change
+      - name: local action 30
+        id: local_action_30
+        uses: ./
+        with:
+          includeGlob: '__tests__/*.lst'
+      - name: fails if big change
+        run: exit 1
+        if: ${{ steps.local_action_30.outputs.bigChange == 'true' }}
+      # test: changed file 1 added / 30% with thrRelChanges 20 => big change
+      - name: local action 31
+        id: local_action_31
+        uses: ./
+        with:
+          includeGlob: '__tests__/*.lst'
+          thrRelChanges: 20
+      - name: fails if no big change
+        run: exit 1
+        if: ${{ steps.local_action_31.outputs.bigChange != 'true' }}
+      # test: changed file 1 added / 30% with thrAbsChanges 1 => big change
+      - name: local action 32
+        id: local_action_32
+        uses: ./
+        with:
+          includeGlob: '__tests__/*.lst'
+          thrAbsChanges: 1
+      - name: fails if no big change
+        run: exit 1
+        if: ${{ steps.local_action_32.outputs.bigChange != 'true' }}
       # test: removed file => big change
       - run:
           rm ./__tests__/testlist.lst
@@ -61,3 +102,15 @@ jobs:
       - name: fails if not big change
         run: exit 1
         if: ${{ steps.local_action_100.outputs.bigChange == 'true' }}
+      # test: removed file with thrRemovedFiles 2 => no big change
+      - run:
+          rm ./__tests__/testlist.lst
+      - name: local action 101
+        id: local_action_101
+        uses: ./
+        with:
+          includeGlob: '__tests__/*.lst'
+          thrRemovedFiles: 2
+      - name: fails if not big change
+        run: exit 1
+        if: ${{ steps.local_action_101.outputs.bigChange == 'true' }}
