@@ -19,13 +19,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      # first test: no chages => no big change
+      - name: local action 0
+        id: local_action_0
+        uses: ./
+      - name: fails if big change
+        run: exit 1
+        if: ${{ steps.local_action_0.outputs.bigChange == 'true' }}
+      # second test: 1 new file => big change
       - run: |
           echo "198.51.100.0/24" > ./__tests__/newlist.lst
-      - name: local action
-        id: local_action
+      - name: local action 10
+        id: local_action_10
         uses: ./
         with:
           includeGlob: '__tests__/*.lst'
       - name: fails if not big change
         run: exit 1
-        if: ${{ steps.local_action.outputs.bigChange != 'true' }}
+        if: ${{ steps.local_action_10.outputs.bigChange != 'true' }}
+      # third test: new excluded file => no big change
+      - name: local action 20
+        id: local_action_20
+        uses: ./
+        with:
+          includeGlob: '__tests__/*.lst'
+          excludeGlob: '**/newlist.lst'
+      - name: fails if big change
+        run: exit 1
+        if: ${{ steps.local_action_20.outputs.bigChange == 'true' }}
+      # cleanup
+      - run: |
+          rm ./__tests__/newlist.lst
+      # test: removed file => big change
+      - run:
+          rm ./__tests__/testlist.lst
+      - name: local action 100
+        id: local_action_100
+        uses: ./
+        with:
+          includeGlob: '__tests__/*.lst'
+      - name: fails if not big change
+        run: exit 1
+        if: ${{ steps.local_action_100.outputs.bigChange == 'true' }}

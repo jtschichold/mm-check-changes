@@ -16,10 +16,10 @@ inputs:
       if specified, files matching this glob pattern are excluded from analysis
   thrNewFiles:
     required: false
-    description: threshold for the number of new files in candidate
+    description: threshold for the number of new files in working directory
   thrRemovedFiles:
     required: false
-    description: threshold for the number of deleted files in candidate
+    description: threshold for the number of deleted files in working directory
   thrRelChanges:
     required: false
     description: threshold for the number of relative changes in a list (in %)
