@@ -103,8 +103,6 @@ jobs:
         run: exit 1
         if: ${{ steps.local_action_100.outputs.bigChange != 'true' }}
       # test: removed file with thrRemovedFiles 2 => no big change
-      - run:
-          rm ./__tests__/testlist.lst
       - name: local action 101
         id: local_action_101
         uses: ./
