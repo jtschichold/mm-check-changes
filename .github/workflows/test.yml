@@ -101,7 +101,7 @@ jobs:
           includeGlob: '__tests__/*.lst'
       - name: fails if not big change
         run: exit 1
-        if: ${{ steps.local_action_100.outputs.bigChange == 'true' }}
+        if: ${{ steps.local_action_100.outputs.bigChange != 'true' }}
       # test: removed file with thrRemovedFiles 2 => no big change
       - run:
           rm ./__tests__/testlist.lst
