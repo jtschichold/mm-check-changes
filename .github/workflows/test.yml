@@ -61,7 +61,7 @@ jobs:
       - run: |
           rm ./__tests__/newlist.lst
       - run: |
-          echo "entry4" >> ./__tests__/newlist.lst
+          echo "entry4" >> ./__tests__/testlist.lst
       # test: changed file 1 added / 30% => no big change
       - name: local action 30
         id: local_action_30

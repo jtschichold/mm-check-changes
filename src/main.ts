@@ -145,6 +145,13 @@ async function run(): Promise<void> {
                 core.debug(`${fstatus.fname} matches excludeGlob, ignored`)
                 continue
             }
+            core.info(
+                `Analyzing: ${fstatus.fname} - #${
+                    fstatus.numberOfLines || '--'
+                } ${fstatus.isNew}/${fstatus.isRemoved} ${
+                    fstatus.added || '--'
+                }/${fstatus.deleted || '--'}`
+            )
 
             if (fstatus.isNew) {
                 newFiles++
