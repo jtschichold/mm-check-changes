@@ -74,33 +74,22 @@ Maximum number of relative changes detected.
 
 ## Example usage
 
-### Aggregate & Collapse
+### Open a PR if big changes
 ```yaml
-# Basic usage, all the networks from the files matching *.list pattern
-# are aggregated and collapsed.
-# 
-# Example:
-# List (from *.list): 10.0.0.0/24, 10.0.1.0/24, 10.0.2.0/24
-# Result: 10.0.0.0/23, 10.0.2.0/24
-uses: jtschichold/mm-process-ip-list
-with:
-  list: *.list
-```
-
-### Aggregate & Collapse & Filter
-```yaml
-# All the networks from the files matching *.list pattern are aggregated,
-# collapsed and the subnets overlapping one of the entries in 
-# myorgips.filter are dropped (and saved in delta)
+# Standard use case: mm-check-changes is used to detect big changes
+# in the repo. If big changes are detected, the create-pull-request action
+# is triggered to open a PR instead of pushing changes directly into the repo
 #
-# Example: 
-# List (from *.list): 10.0.0.0, 10.0.0.1, 10.0.1.0/24
-# Filter (from myorgs.filter): 10.0.1.128/25
-# Result: 10.0.0.0/31, 10.0.1.0/25
-uses: jtschichold/mm-process-ip-list
-with:
-  list: *.list
-  filter: myorgips.filter
+- name: Check changes
+  id: check_changes
+  uses: jtschichold/mm-check-changes@fef08ed6dd
+  with:
+    includeGlob: feeds/**/*.txt
+- name: Create PR
+  if: steps.check_changes.outputs.bigChange == 'true'
+  uses: peter-evans/create-pull-request@45c510e
+  with:
+    branch: please-check-changes
 ```
 
 # License
