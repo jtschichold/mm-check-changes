@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
+  "name": "mm-check-changes",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "Github Action for detecting big changes",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -15,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jtschichold/mm-process-ip-list"
+    "url": "git+https://github.com/jtschichold/mm-check-changes"
   },
   "bugs": {
-    "url": "https://github.com/jtschichold/mm-process-ip-list/issues"
+    "url": "https://github.com/jtschichold/mm-check-changes/issues"
   },
-  "homepage": "https://github.com/jtschichold/mm-process-ip-list#readme",
+  "homepage": "https://github.com/jtschichold/mm-check-changes#readme",
   "keywords": [
     "actions",
     "node",
@@ -28,10 +28,9 @@
   ],
   "author": "Luigi Mori",
   "license": "MIT",
-  "dependencies": {
-    "@actions/core": "^1.2.6"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@actions/core": "^1.2.6",
     "@actions/exec": "^1.0.4",
     "@actions/io": "^1.0.2",
     "@types/jest": "^26.0.19",
