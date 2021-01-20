@@ -311,11 +311,11 @@ function run() {
             for (const fstatus of status) {
                 if (inputs.includeGlob &&
                     !inputs.includeGlob.match(fstatus.fname)) {
-                    core.debug(`${fstatus.fname} does not match includeGlob, ignored`);
+                    core.info(`${fstatus.fname} does not match includeGlob, ignored`);
                     continue;
                 }
                 if (inputs.excludeGlob && inputs.excludeGlob.match(fstatus.fname)) {
-                    core.debug(`${fstatus.fname} matches excludeGlob, ignored`);
+                    core.info(`${fstatus.fname} matches excludeGlob, ignored`);
                     continue;
                 }
                 core.info(`Analyzing: ${fstatus.fname} - #${fstatus.numberOfLines || '--'} ${fstatus.isNew}/${fstatus.isRemoved} ${fstatus.added || '--'}/${fstatus.deleted || '--'}`);

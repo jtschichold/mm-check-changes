@@ -136,13 +136,13 @@ async function run(): Promise<void> {
                 inputs.includeGlob &&
                 !inputs.includeGlob.match(fstatus.fname)
             ) {
-                core.debug(
+                core.info(
                     `${fstatus.fname} does not match includeGlob, ignored`
                 )
                 continue
             }
             if (inputs.excludeGlob && inputs.excludeGlob.match(fstatus.fname)) {
-                core.debug(`${fstatus.fname} matches excludeGlob, ignored`)
+                core.info(`${fstatus.fname} matches excludeGlob, ignored`)
                 continue
             }
             core.info(
